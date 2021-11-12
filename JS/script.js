@@ -3,6 +3,7 @@
 // VARIABLES
 const addForm = document.querySelector('.add');
 const list = document.querySelector('.todos');
+const search = document.querySelector('.search input');
 
 // TEMPLATE FOR LIST ITEMS
 const generateTemplate = (todo) => {
@@ -28,4 +29,33 @@ addForm.addEventListener('submit', e => {
 
 // DELETE TASKS
 
+list.addEventListener('click', e => {
+    if(e.target.classList.contains('delete')) {
+        e.target.parentElement.remove();
+    };
+});
+
+
 // SEARCH TASKS
+
+const filterTasks = (term) => {
+    Array.from(list.children)
+        .filter((task) => {
+            return !task.textContent.toLowerCase().includes(term);
+        })
+        .forEach((task) => {
+            task.classList.add('filtered')
+        })
+    Array.from(list.children)
+        .filter((task) => {
+            return task.textContent.toLowerCase().includes(term);
+        })
+        .forEach((task) => {
+            task.classList.remove('filtered')
+        })
+};
+
+search.addEventListener('keyup', () => {
+    const term = search.value.trim().toLowerCase();
+    filterTasks(term);
+});
